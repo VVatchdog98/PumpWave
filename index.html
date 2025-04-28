@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Coin Analyzer</title>
+</head>
+<body>
+    <h1>Solana Coin Analyzer</h1>
+    <form id="analyze-form">
+        <label for="token-address">Token Pair Address:</label>
+        <input type="text" id="token-address" placeholder="e.g., Token_Pair_Address" required>
+        <label for="coin-id">Coin ID:</label>
+        <input type="text" id="coin-id" placeholder="e.g., solana" required>
+        <button type="button" onclick="analyze()">Analyze</button>
+    </form>
+    <div id="results"></div>
+    <script>
+        async function analyze() {
+            const tokenAddress = document.getElementById("token-address").value;
+            const coinId = document.getElementById("coin-id").value;
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token_address: tokenAddress, coin_id: coinId })
+            });
+            const data = await response.json();
+            document.getElementById("results").innerHTML = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
